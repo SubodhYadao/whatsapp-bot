@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const path = require('path');
 const { vCard } = require('vcard-generator');
 const { ImageAnnotatorClient } = require('@google-cloud/vision');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
@@ -15,9 +14,19 @@ const whatsappPhoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
 const verifyToken = process.env.VERIFY_TOKEN;
 const googleApiKey = process.env.GOOGLE_API_KEY;
 
-// Initialize Google APIs
-// GOOGLE_APPLICATION_CREDENTIALS environment variable is used automatically
-const visionClient = new ImageAnnotatorClient();
+// ** New Code for Google Cloud Vision Authentication **
+// This handles both local and Vercel environments
+const gcpCredentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+let visionClient;
+
+if (gcpCredentialsJson) {
+  // On Vercel, the environment variable contains the JSON string
+  visionClient = new ImageAnnotatorClient({ credentials: JSON.parse(gcpCredentialsJson) });
+} else {
+  // Locally, the environment variable points to the file
+  visionClient = new ImageAnnotatorClient();
+}
+
 const genAI = new GoogleGenerativeAI(googleApiKey);
 
 // WhatsApp Webhook Verification
