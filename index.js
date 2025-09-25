@@ -147,7 +147,7 @@ const verifyToken = process.env.VERIFY_TOKEN;
 const googleApiKey = process.env.GOOGLE_API_KEY;
 
 // ** Google Cloud Vision Authentication **
-const gcpCredentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+const gcpCredentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 let visionClient;
 
 if (gcpCredentialsJson) {
