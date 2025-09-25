@@ -208,7 +208,7 @@ app.post('/webhook', async (req, res) => {
         const fullText = result.fullTextAnnotation?.text || '';
 
         // 3. Send raw text to Gemini API
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
         const prompt = `Extract the contact information from the following text and return a JSON object with keys: 'firstName', 'lastName', 'phoneNumber', 'email', 'company', 'title', 'street', 'city', 'state', 'zipCode'. If a value is not found, use an empty string. The raw text is: ${fullText}`;
 
         const geminiResult = await model.generateContent(prompt);
